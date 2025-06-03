@@ -1,0 +1,15 @@
+{
+  "transaction_id": "653b65bf-c6b1-4a77-982e-72cd70cf4952",
+  "status": "rolled_back",
+  "start_time": "2025-06-03T20:12:16.468270+00:00",
+  "end_time": "2025-06-03T20:12:16.472556+00:00",
+  "metadata": {
+    "operation": "data_transformation",
+    "source_format": "marzneshin",
+    "target_format": "marzban",
+    "start_time": "2025-06-03T20:12:16.468199+00:00",
+    "rollback_reason": "name 'secrets' is not defined"
+  },
+  "operations": [],
+  "checkpoints": []
+}

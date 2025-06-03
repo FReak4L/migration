@@ -7,6 +7,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from core.config import AppConfig
 from core.logging_setup import get_logger, get_console, RICH_AVAILABLE, RichText # type: ignore
+from core.fault_tolerance import (
+    fault_tolerance_manager, fault_tolerant, 
+    RetryConfig, FallbackConfig
+)
 from utils.datetime_utils import iso_format_to_datetime, datetime_to_unix_timestamp, unix_timestamp_to_datetime
 
 if RICH_AVAILABLE:
@@ -28,6 +32,55 @@ class DataTransformer:
     """Transforms data from Marzneshin format to Marzban format."""
     def __init__(self, config: AppConfig):
         self.config = config
+        
+        # Initialize fault tolerance
+        self.fault_tolerance = fault_tolerance_manager
+        self._initialize_fault_tolerance()
+
+    def _initialize_fault_tolerance(self):
+        """Initialize fault tolerance configurations and health checks."""
+        # Configure fallback values for common transformation scenarios
+        fallback_config = FallbackConfig(
+            enable_cache_fallback=True,
+            cache_ttl=300,  # 5 minutes
+            enable_default_values=True,
+            default_values={
+                'user_status': 'active',
+                'admin_status': True,
+                'proxy_type': 'VLESS',
+                'data_limit': 0,
+                'expire_date': None
+            }
+        )
+        
+        # Update fallback strategy
+        self.fault_tolerance.fallback_strategy.config = fallback_config
+        
+        # Register health checks for external services
+        self._register_health_checks()
+        
+        logger.info("Fault tolerance initialized for DataTransformer")
+    
+    def _register_health_checks(self):
+        """Register health checks for external services."""
+        # Note: These would be actual health check functions in a real implementation
+        async def database_health_check():
+            """Check database connectivity."""
+            # Placeholder for actual database health check
+            return True
+        
+        async def api_health_check():
+            """Check API connectivity."""
+            # Placeholder for actual API health check
+            return True
+        
+        # Register health checks
+        self.fault_tolerance.register_service_health_check(
+            "database", database_health_check
+        )
+        self.fault_tolerance.register_service_health_check(
+            "api", api_health_check
+        )
 
     def _convert_key_to_uuid_format(self, key_str: str) -> Optional[str]:
         """Converts a 32-character hex string to standard UUID format with dashes."""
@@ -146,6 +199,110 @@ class DataTransformer:
             "telegram_id": mzsh_admin_dict.get("telegram_id") # Map if available, else None
         }
         return mzb_admin_data
+
+    # Fault-tolerant transformation methods
+    
+    @fault_tolerant("migration", "user_transformation")
+    async def transform_user_with_fault_tolerance(self, mzsh_user_dict: Dict[str, Any]) -> Tuple[Optional[Dict[str, Any]], List[Dict[str, Any]]]:
+        """
+        Transform user data with fault tolerance.
+        
+        Args:
+            mzsh_user_dict: Marzneshin user data
+            
+        Returns:
+            Tuple of (transformed user, list of proxies)
+        """
+        return self.transform_user_for_marzban(mzsh_user_dict)
+    
+    @fault_tolerant("migration", "admin_transformation")
+    async def transform_admin_with_fault_tolerance(self, mzsh_admin_dict: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """
+        Transform admin data with fault tolerance.
+        
+        Args:
+            mzsh_admin_dict: Marzneshin admin data
+            
+        Returns:
+            Transformed admin data
+        """
+        return self.transform_admin_for_marzban(mzsh_admin_dict)
+    
+    async def orchestrate_transformation_with_fault_tolerance(self, 
+                                                            mzsh_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
+        """
+        Orchestrate data transformation with comprehensive fault tolerance.
+        
+        Args:
+            mzsh_data: Marzneshin data to transform
+            
+        Returns:
+            Transformed Marzban data
+        """
+        logger.info("Starting fault-tolerant data transformation...")
+        
+        # Initialize result structure
+        transformed_data = {"users": [], "proxies": [], "admins": []}
+        
+        # Transform users with fault tolerance
+        user_retry_config = RetryConfig(max_attempts=3, base_delay=1.0)
+        
+        for user_data in mzsh_data.get("users", []):
+            try:
+                user_result = await self.fault_tolerance.execute_with_fault_tolerance(
+                    self.transform_user_for_marzban,
+                    "migration",
+                    "user_transformation",
+                    user_retry_config,
+                    user_data
+                )
+                
+                if user_result and user_result[0]:
+                    transformed_user, user_proxies = user_result
+                    transformed_data["users"].append(transformed_user)
+                    transformed_data["proxies"].extend(user_proxies)
+                    
+            except Exception as e:
+                username = user_data.get("username", "unknown")
+                logger.error(f"Failed to transform user {username} with fault tolerance: {e}")
+                continue
+        
+        # Transform admins with fault tolerance
+        admin_retry_config = RetryConfig(max_attempts=2, base_delay=0.5)
+        
+        for admin_data in mzsh_data.get("admins", []):
+            try:
+                admin_result = await self.fault_tolerance.execute_with_fault_tolerance(
+                    self.transform_admin_for_marzban,
+                    "migration",
+                    "admin_transformation", 
+                    admin_retry_config,
+                    admin_data
+                )
+                
+                if admin_result:
+                    transformed_data["admins"].append(admin_result)
+                    
+            except Exception as e:
+                username = admin_data.get("username", "unknown")
+                logger.error(f"Failed to transform admin {username} with fault tolerance: {e}")
+                continue
+        
+        logger.info(f"Fault-tolerant transformation completed: "
+                   f"{len(transformed_data['users'])} users, "
+                   f"{len(transformed_data['proxies'])} proxies, "
+                   f"{len(transformed_data['admins'])} admins")
+        
+        return transformed_data
+    
+    def get_fault_tolerance_status(self) -> Dict[str, Any]:
+        """Get fault tolerance system status."""
+        return self.fault_tolerance.get_system_health()
+    
+    def reset_fault_tolerance(self):
+        """Reset all fault tolerance components."""
+        self.fault_tolerance.reset_all_circuits()
+        logger.info("Fault tolerance system reset")
 
     def orchestrate_transformation(self, mzsh_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
         logger.info(RichText("Transforming Marzneshin data to Marzban format...", style="bold yellow"))
