@@ -49,27 +49,33 @@ async def test_complete_integration():
     # Process data through reactive pipeline
     start_time = time.time()
     
-    # Create async generator from sample data
-    async def data_generator():
-        for item in sample_data:
-            if await flow_controller.can_send():
-                await flow_controller.on_send()
-                yield item
-                await asyncio.sleep(0.001)  # Small delay
-    
     # Process through pipeline
     processed_count = 0
-    async for user in data_generator():
+    queue_length = 0
+    
+    for user in sample_data:
         # Apply transformation
         transformed_user = await transform_user(user)
         
-        # Simulate acknowledgment
-        await flow_controller.on_ack(rtt=0.01)
+        # Simulate queue and processing metrics
+        queue_length = max(0, queue_length + 1 - 2)  # Simulate queue dynamics
+        processing_latency = 0.01  # 10ms processing time
+        throughput = processed_count / (time.time() - start_time + 0.001)
+        
+        # Get flow control recommendation
+        recommended_rate = await flow_controller.control_flow(
+            queue_length=queue_length,
+            processing_latency=processing_latency,
+            throughput=throughput
+        )
         
         processed_count += 1
         
         if processed_count % 20 == 0:
-            print(f"📊 Processed {processed_count} items...")
+            print(f"📊 Processed {processed_count} items, rate: {recommended_rate:.1f}/sec")
+        
+        # Simulate rate limiting
+        await asyncio.sleep(1.0 / recommended_rate if recommended_rate > 0 else 0.01)
     
     end_time = time.time()
     processing_time = end_time - start_time
@@ -82,9 +88,10 @@ async def test_complete_integration():
     print(f"   • Total items processed: {processed_count}")
     print(f"   • Processing time: {processing_time:.2f} seconds")
     print(f"   • Throughput: {processed_count/processing_time:.1f} items/sec")
-    print(f"   • Final window size: {flow_metrics['window_size']}")
-    print(f"   • Average RTT: {flow_metrics['average_rtt']:.3f}s")
-    print(f"   • Bandwidth estimate: {flow_metrics['bandwidth_estimate']:.1f}")
+    print(f"   • Current rate: {flow_metrics['current_rate']:.1f}")
+    print(f"   • Target rate: {flow_metrics['target_rate']:.1f}")
+    print(f"   • Average latency: {flow_metrics['average_latency_ms']:.1f}ms")
+    print(f"   • Congestion events: {flow_metrics['congestion_events']}")
     
     return True
 
@@ -104,21 +111,33 @@ async def test_backpressure_handling():
     
     handler = BackpressureHandler(config)
     
+    # Simple processor function
+    async def simple_processor(item):
+        await asyncio.sleep(0.001)  # Simulate processing
+        return item
+    
     # Simulate high load
+    buffer_size = 0
     for i in range(100):
         item = {"id": i, "data": f"item_{i}"}
-        result = await handler.handle_item(item)
+        buffer_size = min(buffer_size + 1, 50)  # Simulate buffer growth
+        
+        result = await handler.handle_item(item, simple_processor, buffer_size)
+        
+        if result is not None:
+            buffer_size = max(0, buffer_size - 1)  # Item processed
         
         if i % 25 == 0:
             metrics = handler.get_metrics()
-            print(f"   • Buffer usage: {metrics['buffer_usage']}/{metrics['buffer_size']}")
-            print(f"   • Backpressure active: {metrics['backpressure_active']}")
+            print(f"   • Buffer size: {metrics['buffer_size']}")
+            print(f"   • Items dropped: {metrics['dropped_items']}")
+            print(f"   • Current buffer: {buffer_size}")
     
     final_metrics = handler.get_metrics()
     print(f"✅ Backpressure test completed")
-    print(f"   • Final buffer usage: {final_metrics['buffer_usage']}")
-    print(f"   • Items processed: {final_metrics['items_processed']}")
-    print(f"   • Items dropped: {final_metrics['items_dropped']}")
+    print(f"   • Final buffer size: {final_metrics['buffer_size']}")
+    print(f"   • Total items dropped: {final_metrics['dropped_items']}")
+    print(f"   • Average processing time: {final_metrics['average_processing_time_ms']:.1f}ms")
     
     return True
 
