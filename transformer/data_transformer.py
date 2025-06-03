@@ -2,11 +2,14 @@
 
 import json
 import logging
+import secrets
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
 from core.config import AppConfig
 from core.logging_setup import get_logger, get_console, RICH_AVAILABLE, RichText # type: ignore
+from core.schema_analyzer import SchemaAnalyzer
+from core.schema_compatibility import SchemaCompatibilityEngine, ConversionStrategy
 from utils.datetime_utils import iso_format_to_datetime, datetime_to_unix_timestamp, unix_timestamp_to_datetime
 
 if RICH_AVAILABLE:
@@ -25,9 +28,18 @@ logger = get_logger()
 console = get_console()
 
 class DataTransformer:
-    """Transforms data from Marzneshin format to Marzban format."""
+    """Enhanced data transformer with schema compatibility engine."""
     def __init__(self, config: AppConfig):
         self.config = config
+        self.schema_engine = SchemaCompatibilityEngine(ConversionStrategy.LENIENT)
+        self.transformation_stats = {
+            "users_processed": 0,
+            "users_transformed": 0,
+            "admins_processed": 0,
+            "admins_transformed": 0,
+            "conversion_errors": 0,
+            "fallback_conversions": 0
+        }
 
     def _convert_key_to_uuid_format(self, key_str: str) -> Optional[str]:
         """Converts a 32-character hex string to standard UUID format with dashes."""
@@ -69,12 +81,24 @@ class DataTransformer:
             if logger.getEffectiveLevel() <= logging.DEBUG: logger.debug(f"Skipping Marzneshin user with ID {mzsh_user_dict.get('id')} due to missing username.")
             return None, []
 
+        # Enhanced expire field conversion with proper error handling
+        expire_value = None
+        expire_date_raw = mzsh_user_dict.get("expire_date")
+        if expire_date_raw:
+            try:
+                expire_dt = iso_format_to_datetime(expire_date_raw)
+                expire_value = datetime_to_unix_timestamp(expire_dt)
+                logger.debug(f"Converted expire_date '{expire_date_raw}' to Unix timestamp: {expire_value}")
+            except Exception as e:
+                logger.warning(f"Failed to convert expire_date '{expire_date_raw}' for user '{username}': {e}")
+                expire_value = None
+
         mzb_user_data: Dict[str, Any] = {
             "username": username,
             "status": self._determine_mzb_user_status(mzsh_user_dict),
             "data_limit": mzsh_user_dict.get("data_limit", 0) or 0,
             "used_traffic": mzsh_user_dict.get("used_traffic", 0) or 0,
-            "expire": datetime_to_unix_timestamp(iso_format_to_datetime(mzsh_user_dict.get("expire_date"))),
+            "expire": expire_value,
             "created_at": iso_format_to_datetime(mzsh_user_dict.get("created_at")) or datetime.now(timezone.utc),
             "edit_at": iso_format_to_datetime(mzsh_user_dict.get("updated_at")) or datetime.now(timezone.utc),
             "note": mzsh_user_dict.get("note"),
@@ -147,7 +171,37 @@ class DataTransformer:
         }
         return mzb_admin_data
 
+    def analyze_schema_compatibility(self, mzsh_data: Dict[str, List[Dict[str, Any]]]) -> None:
+        """Analyze schema compatibility and log findings."""
+        logger.info(RichText("Analyzing schema compatibility...", style="bold cyan"))
+        
+        users_data = mzsh_data.get("users", [])
+        admins_data = mzsh_data.get("admins", [])
+        
+        if users_data:
+            user_analysis = self.schema_analyzer.analyze_user_schema_compatibility(users_data)
+            logger.info(f"User schema compatibility: {user_analysis.compatibility_score:.2%}")
+            
+            if user_analysis.incompatibilities:
+                logger.warning(f"Found {len(user_analysis.incompatibilities)} user schema incompatibilities:")
+                for incomp in user_analysis.incompatibilities:
+                    logger.warning(f"  - {incomp.field_name}: {incomp.source_type.value} -> {incomp.target_type.value} ({incomp.severity})")
+                    if incomp.conversion_function:
+                        logger.info(f"    Auto-conversion available: {incomp.conversion_function}")
+        
+        if admins_data:
+            admin_analysis = self.schema_analyzer.analyze_admin_schema_compatibility(admins_data)
+            logger.info(f"Admin schema compatibility: {admin_analysis.compatibility_score:.2%}")
+            
+            if admin_analysis.incompatibilities:
+                logger.warning(f"Found {len(admin_analysis.incompatibilities)} admin schema incompatibilities:")
+                for incomp in admin_analysis.incompatibilities:
+                    logger.warning(f"  - {incomp.field_name}: {incomp.source_type.value} -> {incomp.target_type.value} ({incomp.severity})")
+
     def orchestrate_transformation(self, mzsh_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
+        # Perform schema analysis first
+        self.analyze_schema_compatibility(mzsh_data)
+        
         logger.info(RichText("Transforming Marzneshin data to Marzban format...", style="bold yellow"))
         transformed_marzban_data: Dict[str, List[Dict[str, Any]]] = {"users": [], "proxies": [], "admins": []}
         users_without_any_proxy_info_count = 0

@@ -1,0 +1,2 @@
+2025-06-03 19:55:29 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 19:55:29 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
