@@ -2,12 +2,15 @@
 
 import json
 import logging
+import secrets
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
 from core.config import AppConfig
 from core.logging_setup import get_logger, get_console, RICH_AVAILABLE, RichText # type: ignore
 from core.uuid_optimizer import UUIDOptimizer, UUIDFormat
+from core.transaction_manager import TransactionManager
+from core.rollback_handlers import DatabaseRollbackHandlers, DatabaseConnection
 from utils.datetime_utils import iso_format_to_datetime, datetime_to_unix_timestamp, unix_timestamp_to_datetime
 
 if RICH_AVAILABLE:
@@ -30,6 +33,21 @@ class DataTransformer:
     def __init__(self, config: AppConfig):
         self.config = config
         self.uuid_optimizer = UUIDOptimizer(max_workers=4, enable_validation=True)
+        
+        # Initialize transaction management
+        self.transaction_manager = TransactionManager(
+            checkpoint_interval=50,  # Create checkpoint every 50 operations
+            max_operations_per_transaction=5000,
+            enable_persistence=True
+        )
+        
+        # Initialize database connection and rollback handlers
+        self.db_connection = DatabaseConnection("mock://migration_db")
+        self.rollback_handlers = DatabaseRollbackHandlers(self.db_connection)
+        
+        # Register rollback handlers
+        for operation_type, handler in self.rollback_handlers.get_rollback_handlers().items():
+            self.transaction_manager.register_rollback_handler(operation_type, handler)
 
     def _convert_key_to_uuid_format(self, key_str: str) -> Optional[str]:
         """Converts a 32-character hex string to standard UUID format with dashes using optimized transformer."""
@@ -280,3 +298,201 @@ class DataTransformer:
         }
         
         return optimized_uuids, optimization_stats
+    
+    async def transform_data_with_transactions(self, mzsh_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Transform data with full transaction support and rollback capabilities.
+        
+        Args:
+            mzsh_data: Source data in Marzneshin format
+            
+        Returns:
+            Transformed data in Marzban format
+        """
+        transaction_metadata = {
+            "operation": "data_transformation",
+            "source_format": "marzneshin",
+            "target_format": "marzban",
+            "start_time": datetime.now(timezone.utc).isoformat()
+        }
+        
+        async with self.transaction_manager.transaction(metadata=transaction_metadata) as transaction_id:
+            logger.info(f"Starting transactional data transformation with transaction ID: {transaction_id}")
+            
+            transformed_data = {
+                "admins": [],
+                "users": [],
+                "proxies": []
+            }
+            
+            try:
+                # Transform admins with transaction tracking
+                await self._transform_admins_transactional(
+                    mzsh_data.get("admins", []), 
+                    transformed_data["admins"], 
+                    transaction_id
+                )
+                
+                # Create checkpoint after admins
+                checkpoint_id = await self.transaction_manager.create_manual_checkpoint(
+                    transaction_id, 
+                    {"phase": "admins_completed", "count": len(transformed_data["admins"])}
+                )
+                logger.info(f"Created checkpoint {checkpoint_id} after admin transformation")
+                
+                # Transform users with transaction tracking
+                await self._transform_users_transactional(
+                    mzsh_data.get("users", []), 
+                    transformed_data["users"], 
+                    transformed_data["proxies"],
+                    transaction_id
+                )
+                
+                # Create final checkpoint
+                final_checkpoint_id = await self.transaction_manager.create_manual_checkpoint(
+                    transaction_id,
+                    {
+                        "phase": "transformation_completed",
+                        "admin_count": len(transformed_data["admins"]),
+                        "user_count": len(transformed_data["users"]),
+                        "proxy_count": len(transformed_data["proxies"])
+                    }
+                )
+                logger.info(f"Created final checkpoint {final_checkpoint_id}")
+                
+                # Perform final UUID optimization analysis
+                self._analyze_uuid_optimization_opportunities(transformed_data)
+                
+                logger.info(f"Transactional transformation completed successfully")
+                return transformed_data
+                
+            except Exception as e:
+                logger.error(f"Error during transactional transformation: {str(e)}")
+                # Transaction will be automatically rolled back by context manager
+                raise
+    
+    async def _transform_admins_transactional(self, 
+                                            source_admins: List[Dict[str, Any]], 
+                                            target_admins: List[Dict[str, Any]], 
+                                            transaction_id: str):
+        """Transform admins with transaction tracking."""
+        processed_usernames = set()
+        
+        for admin_data in source_admins:
+            admin_username = admin_data.get("username")
+            if not admin_username:
+                logger.debug(f"Skipping admin with missing username: {admin_data.get('id')}")
+                continue
+                
+            if admin_username in processed_usernames:
+                logger.warning(f"Duplicate admin username '{admin_username}' encountered. Skipping.")
+                continue
+                
+            processed_usernames.add(admin_username)
+            
+            # Transform admin
+            transformed_admin = self.transform_admin_for_marzban(admin_data)
+            if transformed_admin:
+                # Record the operation in transaction
+                await self.transaction_manager.add_operation(
+                    transaction_id=transaction_id,
+                    operation_type="insert_admin",
+                    target_table="admins",
+                    operation_data=transformed_admin,
+                    rollback_data=None  # For inserts, rollback is deletion
+                )
+                
+                target_admins.append(transformed_admin)
+                logger.debug(f"Transformed admin: {admin_username}")
+    
+    async def _transform_users_transactional(self, 
+                                           source_users: List[Dict[str, Any]], 
+                                           target_users: List[Dict[str, Any]], 
+                                           target_proxies: List[Dict[str, Any]],
+                                           transaction_id: str):
+        """Transform users and proxies with transaction tracking."""
+        processed_usernames = set()
+        users_using_fallback_key_as_proxy_count = 0
+        users_without_any_proxy_info_count = 0
+        
+        for user_data in source_users:
+            username = user_data.get("username")
+            if not username:
+                logger.debug(f"Skipping user with missing username: {user_data.get('id')}")
+                continue
+                
+            if username in processed_usernames:
+                logger.warning(f"Duplicate username '{username}' encountered. Skipping.")
+                continue
+                
+            processed_usernames.add(username)
+            
+            # Transform user (returns tuple of user and proxies)
+            user_result = self.transform_user_for_marzban(user_data)
+            if user_result and user_result[0]:  # Check if user transformation succeeded
+                transformed_user, user_proxies = user_result
+                
+                # Record user operation
+                await self.transaction_manager.add_operation(
+                    transaction_id=transaction_id,
+                    operation_type="insert_user",
+                    target_table="users",
+                    operation_data=transformed_user,
+                    rollback_data=None
+                )
+                
+                target_users.append(transformed_user)
+                
+                # Record proxy operations
+                for proxy in user_proxies:
+                    await self.transaction_manager.add_operation(
+                        transaction_id=transaction_id,
+                        operation_type="insert_proxy",
+                        target_table="proxies",
+                        operation_data=proxy,
+                        rollback_data=None
+                    )
+                
+                target_proxies.extend(user_proxies)
+                
+                # Check for fallback usage and missing proxy info
+                fallback_used = any("_fallback" in proxy.get("tag", "") for proxy in user_proxies)
+                no_proxy_info = len(user_proxies) == 0
+                
+                if fallback_used:
+                    users_using_fallback_key_as_proxy_count += 1
+                if no_proxy_info:
+                    users_without_any_proxy_info_count += 1
+        
+        logger.info(f"Transformation summary: {len(target_users)} users, {len(target_proxies)} proxies")
+        if users_using_fallback_key_as_proxy_count > 0:
+            logger.info(f"Users using fallback key as proxy: {users_using_fallback_key_as_proxy_count}")
+        if users_without_any_proxy_info_count > 0:
+            logger.warning(f"Users without proxy info: {users_without_any_proxy_info_count}")
+    
+
+    
+    async def rollback_to_checkpoint(self, transaction_id: str, checkpoint_id: str) -> bool:
+        """
+        Rollback a transaction to a specific checkpoint.
+        
+        Args:
+            transaction_id: ID of the transaction to rollback
+            checkpoint_id: ID of the checkpoint to rollback to
+            
+        Returns:
+            True if rollback was successful
+        """
+        return await self.transaction_manager.rollback_to_checkpoint(transaction_id, checkpoint_id)
+    
+    def get_transaction_status(self, transaction_id: str) -> Optional[Dict[str, Any]]:
+        """Get the status of a transaction."""
+        return self.transaction_manager.get_transaction_status(transaction_id)
+    
+    def get_active_transactions(self) -> List[str]:
+        """Get list of active transaction IDs."""
+        return self.transaction_manager.get_active_transactions()
+    
+    async def force_rollback_transaction(self, transaction_id: str, reason: str = "Manual rollback") -> bool:
+        """Force rollback of an active transaction."""
+        return await self.transaction_manager.force_rollback_transaction(transaction_id, reason)
