@@ -1,0 +1,195 @@
+version: '3.8'
+
+services:
+  # Configuration Service - starts first
+  config-service:
+    build:
+      context: .
+      dockerfile: services/config/Dockerfile
+    container_name: migration-config-service
+    ports:
+      - "8005:8005"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # Extractor Service
+  extractor-service:
+    build:
+      context: .
+      dockerfile: services/extractor/Dockerfile
+    container_name: migration-extractor-service
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+      - CONFIG_SERVICE_URL=http://config-service:8005
+    depends_on:
+      config-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # Transformer Service
+  transformer-service:
+    build:
+      context: .
+      dockerfile: services/transformer/Dockerfile
+    container_name: migration-transformer-service
+    ports:
+      - "8002:8002"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+      - CONFIG_SERVICE_URL=http://config-service:8005
+    depends_on:
+      config-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # Validator Service
+  validator-service:
+    build:
+      context: .
+      dockerfile: services/validator/Dockerfile
+    container_name: migration-validator-service
+    ports:
+      - "8004:8004"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+      - CONFIG_SERVICE_URL=http://config-service:8005
+    depends_on:
+      config-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # Importer Service
+  importer-service:
+    build:
+      context: .
+      dockerfile: services/importer/Dockerfile
+    container_name: migration-importer-service
+    ports:
+      - "8003:8003"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+      - CONFIG_SERVICE_URL=http://config-service:8005
+    depends_on:
+      config-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # API Gateway - starts last
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    container_name: migration-api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+      - CONFIG_SERVICE_URL=http://config-service:8005
+    depends_on:
+      config-service:
+        condition: service_healthy
+      extractor-service:
+        condition: service_healthy
+      transformer-service:
+        condition: service_healthy
+      validator-service:
+        condition: service_healthy
+      importer-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # Redis for caching and session management (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: migration-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+  # Nginx for load balancing (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: migration-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api-gateway
+    networks:
+      - migration-network
+    restart: unless-stopped
+
+networks:
+  migration-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  redis-data:
+    driver: local
