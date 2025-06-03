@@ -3,7 +3,7 @@
 import logging
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any
 
 from decouple import config as decouple_config, UndefinedValueError
 from pydantic import (
