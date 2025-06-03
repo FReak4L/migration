@@ -1,12 +1,14 @@
 # migration/main_script.py
 
 import asyncio
+import json
 import logging
 import os
 import sys
 import time
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Core components
 from core.config import get_app_configuration, AppConfig
