@@ -393,8 +393,10 @@ class FaultToleranceManager:
             return await circuit_breaker.call(func, *args, **kwargs)
         
         if fallback_key:
+            async def retry_func():
+                return await retry_mechanism.execute(protected_func)
             return await self.fallback_strategy.execute_with_fallback(
-                lambda: retry_mechanism.execute(protected_func),
+                retry_func,
                 fallback_key
             )
         else:

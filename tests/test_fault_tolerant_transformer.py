@@ -2,6 +2,17 @@
 Tests for Fault Tolerant DataTransformer.
 """
 
+import os
+# Set environment variables before importing config
+os.environ.update({
+    'MARZNESHIN_API_URL': 'http://test-marzneshin.com',
+    'MARZNESHIN_USERNAME': 'test_user',
+    'MARZNESHIN_PASSWORD': 'test_pass',
+    'MARZBAN_API_URL': 'http://test-marzban.com',
+    'MARZBAN_USERNAME': 'test_user',
+    'MARZBAN_PASSWORD': 'test_pass'
+})
+
 import asyncio
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -225,7 +236,7 @@ async def run_fault_tolerant_transformer_tests():
     print("🧪 Running Fault Tolerant Transformer Tests")
     print("=" * 50)
     
-    # Initialize transformer
+    # Initialize transformer with fault tolerance
     config = AppConfig()
     transformer = DataTransformer(config)
     
