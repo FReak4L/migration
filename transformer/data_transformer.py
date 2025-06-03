@@ -43,17 +43,83 @@ class DataTransformer:
 
     def _convert_key_to_uuid_format(self, key_str: str) -> Optional[str]:
         """Converts a 32-character hex string to standard UUID format with dashes."""
-        if isinstance(key_str, str) and len(key_str) == 32:
-            try:
-                # Basic validation that it's a hex string
-                int(key_str, 16)
-                # Format to XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-                return f"{key_str[:8]}-{key_str[8:12]}-{key_str[12:16]}-{key_str[16:20]}-{key_str[20:]}"
-            except ValueError:
-                logger.warning(f"Invalid characters in key for UUID formatting: {key_str}")
-                return None
-        logger.debug(f"Key '{key_str}' is not a 32-char string; cannot format to UUID.")
-        return None
+        # Use the enhanced schema compatibility engine for UUID conversion
+        result = self.schema_engine._convert_uuid_format(key_str, add_dashes=True)
+        if result is None:
+            self.transformation_stats["conversion_errors"] += 1
+        return result
+    
+    def transform_user_with_schema_engine(self, mzsh_user_dict: Dict[str, Any]) -> Tuple[Optional[Dict[str, Any]], List[Dict[str, Any]]]:
+        """Enhanced user transformation using schema compatibility engine."""
+        username = mzsh_user_dict.get("username")
+        if not username:
+            logger.debug(f"Skipping Marzneshin user with ID {mzsh_user_dict.get('id')} due to missing username.")
+            return None, []
+        
+        self.transformation_stats["users_processed"] += 1
+        
+        # Use schema compatibility engine for basic field transformations
+        mappings = self.schema_engine.get_marzneshin_to_marzban_user_mappings()
+        base_user_data = self.schema_engine.transform_record(mzsh_user_dict, mappings)
+        
+        # Add custom logic for status determination and other complex transformations
+        base_user_data["status"] = self._determine_mzb_user_status(mzsh_user_dict)
+        base_user_data["admin_id"] = None
+        base_user_data["on_hold_timeout"] = None
+        base_user_data["on_hold_expire_duration"] = None
+        base_user_data["auto_delete_in_days"] = None
+        base_user_data["last_status_change"] = datetime.now(timezone.utc)
+        
+        # Handle on_hold status special case
+        if base_user_data["status"] == "on_hold":
+            base_user_data["on_hold_timeout"] = iso_format_to_datetime(mzsh_user_dict.get("activation_deadline"))
+            base_user_data["on_hold_expire_duration"] = mzsh_user_dict.get("usage_duration")
+            base_user_data["expire"] = None
+        
+        # Ensure edit_at is not before created_at
+        if base_user_data.get("edit_at") and base_user_data.get("created_at"):
+            if base_user_data["edit_at"] < base_user_data["created_at"]:
+                base_user_data["edit_at"] = base_user_data["created_at"]
+        
+        # Handle proxy transformations
+        mzb_proxies_list = self._transform_user_proxies(mzsh_user_dict, username)
+        
+        self.transformation_stats["users_transformed"] += 1
+        return base_user_data, mzb_proxies_list
+    
+    def _transform_user_proxies(self, mzsh_user_dict: Dict[str, Any], username: str) -> List[Dict[str, Any]]:
+        """Transform user proxy configurations."""
+        mzb_proxies_list: List[Dict[str, Any]] = []
+        user_key_as_main_uuid = mzsh_user_dict.get("key")
+        proxies_from_mzsh_api = mzsh_user_dict.get("proxies", {})
+        found_explicit_proxy_uuid = False
+
+        if isinstance(proxies_from_mzsh_api, dict) and proxies_from_mzsh_api:
+            for protocol_name_mzsh, proxy_detail_mzsh in proxies_from_mzsh_api.items():
+                if isinstance(proxy_detail_mzsh, dict) and proxy_detail_mzsh.get("id"):
+                    proxy_settings_for_mzb = {"id": proxy_detail_mzsh["id"]}
+                    mzb_proxies_list.append({
+                        "_username_ref": username,
+                        "type": protocol_name_mzsh.upper(),
+                        "settings": json.dumps(proxy_settings_for_mzb)
+                    })
+                    found_explicit_proxy_uuid = True
+
+        if not found_explicit_proxy_uuid and user_key_as_main_uuid:
+            formatted_uuid = self._convert_key_to_uuid_format(user_key_as_main_uuid)
+            if formatted_uuid:
+                logger.debug(f"User '{username}' using formatted user.key '{formatted_uuid}' as fallback VLESS UUID.")
+                mzb_proxies_list.append({
+                    "_username_ref": username,
+                    "type": "VLESS",
+                    "settings": json.dumps({"id": formatted_uuid})
+                })
+                self.transformation_stats["fallback_conversions"] += 1
+            else:
+                logger.warning(f"User '{username}' fallback key '{user_key_as_main_uuid}' could not be formatted to UUID. Proxy entry from key will be skipped.")
+                self.transformation_stats["conversion_errors"] += 1
+
+        return mzb_proxies_list
 
     def _determine_mzb_user_status(self, mzsh_user_dict: Dict[str, Any]) -> str:
         """Determines Marzban user status based on Marzneshin user data."""
@@ -267,4 +333,93 @@ class DataTransformer:
             if users_without_any_proxy_info_count > 0: logger.warning(f"... and {users_without_any_proxy_info_count} users ended up with no proxy information to migrate.")
 
         logger.info(RichText("Data transformation phase completed.", style="bold green"))
+        return transformed_marzban_data
+    
+    def get_transformation_statistics(self) -> Dict[str, Any]:
+        """Get detailed transformation statistics."""
+        schema_report = self.schema_engine.get_conversion_report()
+        
+        return {
+            "transformation_stats": self.transformation_stats,
+            "schema_conversion_report": schema_report,
+            "success_rate": {
+                "users": (self.transformation_stats["users_transformed"] / 
+                         max(self.transformation_stats["users_processed"], 1)) * 100,
+                "admins": (self.transformation_stats["admins_transformed"] / 
+                          max(self.transformation_stats["admins_processed"], 1)) * 100
+            }
+        }
+    
+    def orchestrate_enhanced_transformation(self, mzsh_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
+        """Enhanced transformation orchestration with improved error handling and statistics."""
+        logger.info(RichText("Starting enhanced transformation with schema compatibility engine...", style="bold yellow"))
+        
+        # Clear previous statistics
+        self.transformation_stats = {
+            "users_processed": 0,
+            "users_transformed": 0,
+            "admins_processed": 0,
+            "admins_transformed": 0,
+            "conversion_errors": 0,
+            "fallback_conversions": 0
+        }
+        self.schema_engine.clear_conversion_log()
+        
+        transformed_marzban_data: Dict[str, List[Dict[str, Any]]] = {"users": [], "proxies": [], "admins": []}
+        processed_usernames = set()
+        processed_admin_usernames = set()
+        
+        # Transform users with enhanced schema engine
+        for mzsh_user_item in mzsh_data.get("users", []):
+            username = mzsh_user_item.get("username")
+            if not username:
+                logger.debug(f"Skipping source user data due to missing username: {mzsh_user_item.get('id')}")
+                continue
+                
+            if username in processed_usernames:
+                logger.warning(f"Duplicate username '{username}' encountered. Skipping subsequent instance.")
+                continue
+                
+            processed_usernames.add(username)
+            
+            try:
+                mzb_user_transformed, mzb_proxies_transformed_list = self.transform_user_with_schema_engine(mzsh_user_item)
+                if mzb_user_transformed:
+                    transformed_marzban_data["users"].append(mzb_user_transformed)
+                    if mzb_proxies_transformed_list:
+                        transformed_marzban_data["proxies"].extend(mzb_proxies_transformed_list)
+            except Exception as e:
+                logger.error(f"Failed to transform user '{username}': {e}")
+                self.transformation_stats["conversion_errors"] += 1
+        
+        # Transform admins
+        for mzsh_admin_item in mzsh_data.get("admins", []):
+            admin_username = mzsh_admin_item.get("username")
+            if not admin_username:
+                logger.debug(f"Skipping source admin data due to missing username: {mzsh_admin_item.get('id')}")
+                continue
+                
+            if admin_username in processed_admin_usernames:
+                logger.warning(f"Duplicate admin username '{admin_username}' encountered. Skipping subsequent instance.")
+                continue
+                
+            processed_admin_usernames.add(admin_username)
+            self.transformation_stats["admins_processed"] += 1
+            
+            try:
+                mzb_admin_transformed = self.transform_admin_for_marzban(mzsh_admin_item)
+                if mzb_admin_transformed:
+                    transformed_marzban_data["admins"].append(mzb_admin_transformed)
+                    self.transformation_stats["admins_transformed"] += 1
+            except Exception as e:
+                logger.error(f"Failed to transform admin '{admin_username}': {e}")
+                self.transformation_stats["conversion_errors"] += 1
+        
+        # Log transformation statistics
+        stats = self.get_transformation_statistics()
+        logger.info(f"Transformation completed: {stats['transformation_stats']}")
+        
+        if stats['schema_conversion_report']['total_errors'] > 0:
+            logger.warning(f"Schema conversion errors: {stats['schema_conversion_report']['total_errors']}")
+        
         return transformed_marzban_data
