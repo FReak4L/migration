@@ -1,0 +1,82 @@
+{
+  "transaction_id": "c2d6267c-1cf6-434e-b32d-d5320ec30c62",
+  "status": "committed",
+  "start_time": "2025-06-03T20:14:41.746186+00:00",
+  "end_time": "2025-06-03T20:14:41.755831+00:00",
+  "metadata": {
+    "operation": "data_transformation",
+    "source_format": "marzneshin",
+    "target_format": "marzban",
+    "start_time": "2025-06-03T20:14:41.746154+00:00"
+  },
+  "operations": [
+    {
+      "operation_id": "6ed04a89-3f9f-459f-82d6-147d2496f8ab",
+      "operation_type": "insert_admin",
+      "target_table": "admins",
+      "operation_data": {
+        "username": "admin1",
+        "hashed_password": "NEEDS_RESET_IN_MARZBAN__7080a44e5e2dc0c2b7f5c9c8b92bc744",
+        "is_sudo": true,
+        "created_at": "2025-06-03 20:14:41.747575+00:00",
+        "password_reset_at": null,
+        "discord_webhook": null,
+        "users_usage": 0,
+        "telegram_id": null
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:14:41.747591+00:00"
+    },
+    {
+      "operation_id": "59d02ef4-42fb-4e34-82cd-d6d8d91ed00f",
+      "operation_type": "insert_user",
+      "target_table": "users",
+      "operation_data": {
+        "username": "user1",
+        "status": "active",
+        "data_limit": 0,
+        "used_traffic": 0,
+        "expire": null,
+        "created_at": "2025-06-03 20:14:41.749014+00:00",
+        "edit_at": "2025-06-03 20:14:41.749016+00:00",
+        "note": null,
+        "sub_revoked_at": null,
+        "sub_updated_at": null,
+        "sub_last_user_agent": null,
+        "online_at": null,
+        "data_limit_reset_strategy": "no_reset",
+        "admin_id": null,
+        "on_hold_timeout": null,
+        "on_hold_expire_duration": null,
+        "auto_delete_in_days": null,
+        "last_status_change": "2025-06-03 20:14:41.749018+00:00"
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:14:41.750709+00:00"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "0e831e12-6526-4734-b69d-ae16447e6ade",
+      "transaction_id": "c2d6267c-1cf6-434e-b32d-d5320ec30c62",
+      "operation_count": 1,
+      "checkpoint_data": {
+        "phase": "admins_completed",
+        "count": 1
+      },
+      "timestamp": "2025-06-03T20:14:41.747604+00:00"
+    },
+    {
+      "checkpoint_id": "af5f4a76-55d4-413f-adc6-cd19dd1ecfae",
+      "transaction_id": "c2d6267c-1cf6-434e-b32d-d5320ec30c62",
+      "operation_count": 2,
+      "checkpoint_data": {
+        "phase": "transformation_completed",
+        "admin_count": 1,
+        "user_count": 1,
+        "proxy_count": 0
+      },
+      "timestamp": "2025-06-03T20:14:41.752201+00:00"
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_ab41bb10d95a
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_ab41bb10d95a committed successfully with 1 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_ee7fb25d4583
+2025-06-03 20:05:32 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:167 | transaction | Transaction txn_ee7fb25d4583 failed: Test exception
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:365 | _rollback_transaction | Transaction txn_ee7fb25d4583 rolled back successfully
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_7660437a2feb
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_7660437a2feb committed successfully with 7 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_802f7b178bc3
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_802f7b178bc3 committed successfully with 3 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_e0dab29acb1b
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:290 | rollback_to_checkpoint | Successfully rolled back transaction txn_e0dab29acb1b to checkpoint cp_71fa8e9b
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_e0dab29acb1b committed successfully with 3 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_0
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_1
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:155 | transaction | Starting transaction: txn_2
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_0 committed successfully with 1 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_1 committed successfully with 1 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:340 | _commit_transaction | Transaction txn_2 committed successfully with 1 operations
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:84 | rollback_insert_user | Successfully rolled back user insert for user: 1
+2025-06-03 20:05:32 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:138 | rollback_update_user | Successfully rolled back user update for user: 1
+2025-06-03 20:06:34 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:06:34 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:07:26 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:07:26 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:07:56 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:07:56 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:10:58 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:10:58 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:11:45 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:11:45 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:12:03 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:12:03 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 653b65bf-c6b1-4a77-982e-72cd70cf4952
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:319 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 653b65bf-c6b1-4a77-982e-72cd70cf4952
+2025-06-03 20:12:16 - ERROR    [MigrationMzsh2Mzb] | data_transformer.py:369 | transform_data_with_transactions | Error during transactional transformation: name 'secrets' is not defined
+2025-06-03 20:12:16 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:137 | transaction | Transaction 653b65bf-c6b1-4a77-982e-72cd70cf4952 failed: name 'secrets' is not defined
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:323 | _rollback_transaction | Rolled back transaction 653b65bf-c6b1-4a77-982e-72cd70cf4952: name 'secrets' is not defined
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 3e5b6dcb-602f-4f85-8912-02d340a51b25
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:319 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 3e5b6dcb-602f-4f85-8912-02d340a51b25
+2025-06-03 20:12:16 - ERROR    [MigrationMzsh2Mzb] | data_transformer.py:369 | transform_data_with_transactions | Error during transactional transformation: name 'secrets' is not defined
+2025-06-03 20:12:16 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:137 | transaction | Transaction 3e5b6dcb-602f-4f85-8912-02d340a51b25 failed: name 'secrets' is not defined
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:323 | _rollback_transaction | Rolled back transaction 3e5b6dcb-602f-4f85-8912-02d340a51b25: name 'secrets' is not defined
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:12:16 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint b0ec8195-9b00-4e1a-9953-e0c510e77716 for transaction 1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint b0ec8195-9b00-4e1a-9953-e0c510e77716 after admin transformation
+2025-06-03 20:12:50 - ERROR    [MigrationMzsh2Mzb] | data_transformer.py:370 | transform_data_with_transactions | Error during transactional transformation: 'DataTransformer' object has no attribute 'transform_proxy_for_marzban'
+2025-06-03 20:12:50 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:137 | transaction | Transaction 1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1 failed: 'DataTransformer' object has no attribute 'transform_proxy_for_marzban'
+2025-06-03 20:12:50 - ERROR    [MigrationMzsh2Mzb] | rollback_handlers.py:90 | _rollback_insert_user | Failed to rollback user insert operation 96aa6419-aee9-411b-9f3f-0451eb7e72f6: 'tuple' object has no attribute 'get'
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:157 | _rollback_insert_admin | Rolled back admin insert for username: admin1
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:323 | _rollback_transaction | Rolled back transaction 1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1: 'DataTransformer' object has no attribute 'transform_proxy_for_marzban'
+2025-06-03 20:12:50 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:397 | _persist_transaction | Failed to persist transaction 1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1: Object of type datetime is not JSON serializable
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 0a556090-780c-4fcd-89a1-4582d90c2366
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 0a556090-780c-4fcd-89a1-4582d90c2366
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 8e0b1b8e-bddb-40a4-9df3-cc00e769258d for transaction 0a556090-780c-4fcd-89a1-4582d90c2366
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 8e0b1b8e-bddb-40a4-9df3-cc00e769258d after admin transformation
+2025-06-03 20:12:50 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:60 | _convert_key_to_uuid_format | UUID transformation failed for 'invalid_key_format': Invalid UUID format detected
+2025-06-03 20:12:50 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:144 | transform_user_for_marzban | User 'user1' fallback key 'invalid_key_format' could not be formatted to UUID. Proxy entry from key will be skipped.
+2025-06-03 20:12:50 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:60 | _convert_key_to_uuid_format | UUID transformation failed for 'invalid_key_format': Invalid UUID format detected
+2025-06-03 20:12:50 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:523 | _transform_user_proxies_transactional | User 'user1' fallback key could not be formatted to UUID
+2025-06-03 20:12:50 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:528 | _transform_user_proxies_transactional | User 'user1' has no proxy information
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:456 | _transform_users_transactional | Transformation summary: 1 users, 0 proxies
+2025-06-03 20:12:50 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:460 | _transform_users_transactional | Users without proxy info: 1
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 19b58475-b0cf-40d1-a9d9-80aa36c593ad for transaction 0a556090-780c-4fcd-89a1-4582d90c2366
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint 19b58475-b0cf-40d1-a9d9-80aa36c593ad
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 0a556090-780c-4fcd-89a1-4582d90c2366 with 2 operations
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 0a556090-780c-4fcd-89a1-4582d90c2366 committed successfully
+2025-06-03 20:12:50 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:397 | _persist_transaction | Failed to persist transaction 0a556090-780c-4fcd-89a1-4582d90c2366: Object of type datetime is not JSON serializable
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:12:50 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:13:29 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:13:29 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 40249424-575d-4d87-be19-7e9d581bf6ce
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 40249424-575d-4d87-be19-7e9d581bf6ce
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint f1df86fc-84a0-480c-9a2b-2a852c2127e5 for transaction 40249424-575d-4d87-be19-7e9d581bf6ce
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint f1df86fc-84a0-480c-9a2b-2a852c2127e5 after admin transformation
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 1 proxies
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 82651e30-4625-4eb0-975f-0612efb93e27 for transaction 40249424-575d-4d87-be19-7e9d581bf6ce
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint 82651e30-4625-4eb0-975f-0612efb93e27
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:255 | _analyze_uuid_optimization_opportunities | UUID Analysis: 1 UUIDs found in proxy configurations
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:258 | _analyze_uuid_optimization_opportunities | UUID Optimization Recommendations:
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:260 | _analyze_uuid_optimization_opportunities |   • All UUIDs are already in standard format - no transformation needed
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 40249424-575d-4d87-be19-7e9d581bf6ce with 3 operations
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 40249424-575d-4d87-be19-7e9d581bf6ce committed successfully
+2025-06-03 20:13:30 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:397 | _persist_transaction | Failed to persist transaction 40249424-575d-4d87-be19-7e9d581bf6ce: Object of type datetime is not JSON serializable
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 2a913c35-4411-43b6-8b95-5f80f80b40d3
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 2a913c35-4411-43b6-8b95-5f80f80b40d3
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 83001227-fe25-42cf-8723-4c7aedcbd68d for transaction 2a913c35-4411-43b6-8b95-5f80f80b40d3
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 83001227-fe25-42cf-8723-4c7aedcbd68d after admin transformation
+2025-06-03 20:13:30 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:60 | _convert_key_to_uuid_format | UUID transformation failed for 'invalid_key_format': Invalid UUID format detected
+2025-06-03 20:13:30 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:144 | transform_user_for_marzban | User 'user1' fallback key 'invalid_key_format' could not be formatted to UUID. Proxy entry from key will be skipped.
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 0 proxies
+2025-06-03 20:13:30 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:471 | _transform_users_transactional | Users without proxy info: 1
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint fcdb370b-a412-4130-89bd-6eb25dcda0f6 for transaction 2a913c35-4411-43b6-8b95-5f80f80b40d3
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint fcdb370b-a412-4130-89bd-6eb25dcda0f6
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 2a913c35-4411-43b6-8b95-5f80f80b40d3 with 2 operations
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 2a913c35-4411-43b6-8b95-5f80f80b40d3 committed successfully
+2025-06-03 20:13:30 - ERROR    [MigrationMzsh2Mzb] | transaction_manager.py:397 | _persist_transaction | Failed to persist transaction 2a913c35-4411-43b6-8b95-5f80f80b40d3: Object of type datetime is not JSON serializable
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:13:30 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:13:53 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:13:53 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction a8106110-a230-4f6d-bcdf-e264ce315e18
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: a8106110-a230-4f6d-bcdf-e264ce315e18
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 7b624558-8ff6-4f42-803f-daf1b55ff761 for transaction a8106110-a230-4f6d-bcdf-e264ce315e18
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 7b624558-8ff6-4f42-803f-daf1b55ff761 after admin transformation
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 1 proxies
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 9eee4f77-02b1-4bcc-9261-43e21827f6cf for transaction a8106110-a230-4f6d-bcdf-e264ce315e18
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint 9eee4f77-02b1-4bcc-9261-43e21827f6cf
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:255 | _analyze_uuid_optimization_opportunities | UUID Analysis: 1 UUIDs found in proxy configurations
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:258 | _analyze_uuid_optimization_opportunities | UUID Optimization Recommendations:
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:260 | _analyze_uuid_optimization_opportunities |   • All UUIDs are already in standard format - no transformation needed
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction a8106110-a230-4f6d-bcdf-e264ce315e18 with 3 operations
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction a8106110-a230-4f6d-bcdf-e264ce315e18 committed successfully
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 50325777-3432-46d4-8426-6349789adb8e
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 50325777-3432-46d4-8426-6349789adb8e
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 15274f4c-ed8c-43ad-be39-372a1c1fb8cc for transaction 50325777-3432-46d4-8426-6349789adb8e
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 15274f4c-ed8c-43ad-be39-372a1c1fb8cc after admin transformation
+2025-06-03 20:13:54 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:60 | _convert_key_to_uuid_format | UUID transformation failed for 'invalid_key_format': Invalid UUID format detected
+2025-06-03 20:13:54 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:144 | transform_user_for_marzban | User 'user1' fallback key 'invalid_key_format' could not be formatted to UUID. Proxy entry from key will be skipped.
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 0 proxies
+2025-06-03 20:13:54 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:471 | _transform_users_transactional | Users without proxy info: 1
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint cd7c1803-7cb8-447c-a691-5f1b9d0121a7 for transaction 50325777-3432-46d4-8426-6349789adb8e
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint cd7c1803-7cb8-447c-a691-5f1b9d0121a7
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 50325777-3432-46d4-8426-6349789adb8e with 2 operations
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 50325777-3432-46d4-8426-6349789adb8e committed successfully
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:13:54 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 5d3a835c-ec17-4962-8681-3f24b8f73d0b
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 5d3a835c-ec17-4962-8681-3f24b8f73d0b
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 383507a8-3e33-405f-b40a-02b4e0d94867 for transaction 5d3a835c-ec17-4962-8681-3f24b8f73d0b
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 383507a8-3e33-405f-b40a-02b4e0d94867 after admin transformation
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 1 proxies
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 57136043-0ae5-4ac9-b285-6c9369845dd7 for transaction 5d3a835c-ec17-4962-8681-3f24b8f73d0b
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint 57136043-0ae5-4ac9-b285-6c9369845dd7
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:255 | _analyze_uuid_optimization_opportunities | UUID Analysis: 1 UUIDs found in proxy configurations
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:258 | _analyze_uuid_optimization_opportunities | UUID Optimization Recommendations:
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:260 | _analyze_uuid_optimization_opportunities |   • All UUIDs are already in standard format - no transformation needed
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 5d3a835c-ec17-4962-8681-3f24b8f73d0b with 3 operations
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 5d3a835c-ec17-4962-8681-3f24b8f73d0b committed successfully
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction c2d6267c-1cf6-434e-b32d-d5320ec30c62
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: c2d6267c-1cf6-434e-b32d-d5320ec30c62
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 0e831e12-6526-4734-b69d-ae16447e6ade for transaction c2d6267c-1cf6-434e-b32d-d5320ec30c62
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 0e831e12-6526-4734-b69d-ae16447e6ade after admin transformation
+2025-06-03 20:14:41 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:60 | _convert_key_to_uuid_format | UUID transformation failed for 'invalid_key_format': Invalid UUID format detected
+2025-06-03 20:14:41 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:144 | transform_user_for_marzban | User 'user1' fallback key 'invalid_key_format' could not be formatted to UUID. Proxy entry from key will be skipped.
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 0 proxies
+2025-06-03 20:14:41 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:471 | _transform_users_transactional | Users without proxy info: 1
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint af5f4a76-55d4-413f-adc6-cd19dd1ecfae for transaction c2d6267c-1cf6-434e-b32d-d5320ec30c62
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint af5f4a76-55d4-413f-adc6-cd19dd1ecfae
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction c2d6267c-1cf6-434e-b32d-d5320ec30c62 with 2 operations
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction c2d6267c-1cf6-434e-b32d-d5320ec30c62 committed successfully
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:14:41 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:15:15 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:101 | _setup_global_logger | File logging enabled at: /workspace/migration/migrationmzsh2mzb.log
+2025-06-03 20:15:15 - INFO     [MigrationMzsh2Mzb] | logging_setup.py:112 | _setup_global_logger | Logger 'MigrationMzsh2Mzb' initialized. Effective logging level: INFO.
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 917b562f-2099-4e06-86e2-6bd7e03fc63c
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 917b562f-2099-4e06-86e2-6bd7e03fc63c
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint ca4ce183-3ceb-4b50-b660-23ade2440001 for transaction 917b562f-2099-4e06-86e2-6bd7e03fc63c
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint ca4ce183-3ceb-4b50-b660-23ade2440001 after admin transformation
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 1 proxies
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 313e387c-d0af-4fc1-8fef-5b80eadac29a for transaction 917b562f-2099-4e06-86e2-6bd7e03fc63c
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint 313e387c-d0af-4fc1-8fef-5b80eadac29a
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:255 | _analyze_uuid_optimization_opportunities | UUID Analysis: 1 UUIDs found in proxy configurations
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:258 | _analyze_uuid_optimization_opportunities | UUID Optimization Recommendations:
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:260 | _analyze_uuid_optimization_opportunities |   • All UUIDs are already in standard format - no transformation needed
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 917b562f-2099-4e06-86e2-6bd7e03fc63c with 3 operations
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 917b562f-2099-4e06-86e2-6bd7e03fc63c committed successfully
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:126 | transaction | Started transaction 9b4db703-b7d9-4248-a78f-093aa09b1721
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:320 | transform_data_with_transactions | Starting transactional data transformation with transaction ID: 9b4db703-b7d9-4248-a78f-093aa09b1721
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint 81ed6098-e58e-4656-85f8-db21aebf56b8 for transaction 9b4db703-b7d9-4248-a78f-093aa09b1721
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:341 | transform_data_with_transactions | Created checkpoint 81ed6098-e58e-4656-85f8-db21aebf56b8 after admin transformation
+2025-06-03 20:15:16 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:60 | _convert_key_to_uuid_format | UUID transformation failed for 'invalid_key_format': Invalid UUID format detected
+2025-06-03 20:15:16 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:144 | transform_user_for_marzban | User 'user1' fallback key 'invalid_key_format' could not be formatted to UUID. Proxy entry from key will be skipped.
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:467 | _transform_users_transactional | Transformation summary: 1 users, 0 proxies
+2025-06-03 20:15:16 - WARNING  [MigrationMzsh2Mzb] | data_transformer.py:471 | _transform_users_transactional | Users without proxy info: 1
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:226 | create_manual_checkpoint | Created manual checkpoint cfd3446b-4920-408b-9604-94d2e2422cff for transaction 9b4db703-b7d9-4248-a78f-093aa09b1721
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:361 | transform_data_with_transactions | Created final checkpoint cfd3446b-4920-408b-9604-94d2e2422cff
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | data_transformer.py:366 | transform_data_with_transactions | Transactional transformation completed successfully
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:306 | _commit_transaction | Committed transaction 9b4db703-b7d9-4248-a78f-093aa09b1721 with 2 operations
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:133 | transaction | Transaction 9b4db703-b7d9-4248-a78f-093aa09b1721 committed successfully
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | transaction_manager.py:97 | __init__ | TransactionManager initialized with checkpoint_interval=50
+2025-06-03 20:15:16 - INFO     [MigrationMzsh2Mzb] | rollback_handlers.py:66 | __init__ | DatabaseRollbackHandlers initialized with 9 handlers

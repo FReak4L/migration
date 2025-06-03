@@ -1,0 +1,82 @@
+{
+  "transaction_id": "50325777-3432-46d4-8426-6349789adb8e",
+  "status": "committed",
+  "start_time": "2025-06-03T20:13:54.149114+00:00",
+  "end_time": "2025-06-03T20:13:54.158978+00:00",
+  "metadata": {
+    "operation": "data_transformation",
+    "source_format": "marzneshin",
+    "target_format": "marzban",
+    "start_time": "2025-06-03T20:13:54.149080+00:00"
+  },
+  "operations": [
+    {
+      "operation_id": "ef1c2bc9-0eae-4fc1-b8d3-6cb352ffa2ed",
+      "operation_type": "insert_admin",
+      "target_table": "admins",
+      "operation_data": {
+        "username": "admin1",
+        "hashed_password": "NEEDS_RESET_IN_MARZBAN__588d9fabbe6a1b99e4025217d8d2029f",
+        "is_sudo": true,
+        "created_at": "2025-06-03 20:13:54.150641+00:00",
+        "password_reset_at": null,
+        "discord_webhook": null,
+        "users_usage": 0,
+        "telegram_id": null
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:13:54.150659+00:00"
+    },
+    {
+      "operation_id": "87efad6b-2c6a-48e3-b61b-154dffaee697",
+      "operation_type": "insert_user",
+      "target_table": "users",
+      "operation_data": {
+        "username": "user1",
+        "status": "active",
+        "data_limit": 0,
+        "used_traffic": 0,
+        "expire": null,
+        "created_at": "2025-06-03 20:13:54.152140+00:00",
+        "edit_at": "2025-06-03 20:13:54.152142+00:00",
+        "note": null,
+        "sub_revoked_at": null,
+        "sub_updated_at": null,
+        "sub_last_user_agent": null,
+        "online_at": null,
+        "data_limit_reset_strategy": "no_reset",
+        "admin_id": null,
+        "on_hold_timeout": null,
+        "on_hold_expire_duration": null,
+        "auto_delete_in_days": null,
+        "last_status_change": "2025-06-03 20:13:54.152144+00:00"
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:13:54.153830+00:00"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "15274f4c-ed8c-43ad-be39-372a1c1fb8cc",
+      "transaction_id": "50325777-3432-46d4-8426-6349789adb8e",
+      "operation_count": 1,
+      "checkpoint_data": {
+        "phase": "admins_completed",
+        "count": 1
+      },
+      "timestamp": "2025-06-03T20:13:54.150674+00:00"
+    },
+    {
+      "checkpoint_id": "cd7c1803-7cb8-447c-a691-5f1b9d0121a7",
+      "transaction_id": "50325777-3432-46d4-8426-6349789adb8e",
+      "operation_count": 2,
+      "checkpoint_data": {
+        "phase": "transformation_completed",
+        "admin_count": 1,
+        "user_count": 1,
+        "proxy_count": 0
+      },
+      "timestamp": "2025-06-03T20:13:54.155284+00:00"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "transaction_id": "40249424-575d-4d87-be19-7e9d581bf6ce",
+  "status": "committed",
+  "start_time": "2025-06-03T20:13:30.070852+00:00",
+  "end_time": "2025-06-03T20:13:30.081084+00:00",
+  "metadata": {
+    "operation": "data_transformation",
+    "source_format": "marzneshin",
+    "target_format": "marzban",
+    "start_time": "2025-06-03T20:13:30.070797+00:00"
+  },
+  "operations": [
+    {
+      "operation_id": "74cca22a-28ec-4258-9c80-e27015ac38e4",
+      "operation_type": "insert_admin",
+      "target_table": "admins",
+      "operation_data": {
+        "username": "admin1",
+        "hashed_password": "NEEDS_RESET_IN_MARZBAN__541e111379f1b047e046267c4939eed1",
+        "is_sudo": true,
+        "created_at": 

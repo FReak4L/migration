@@ -1,0 +1,94 @@
+{
+  "transaction_id": "5d3a835c-ec17-4962-8681-3f24b8f73d0b",
+  "status": "committed",
+  "start_time": "2025-06-03T20:14:41.733334+00:00",
+  "end_time": "2025-06-03T20:14:41.743640+00:00",
+  "metadata": {
+    "operation": "data_transformation",
+    "source_format": "marzneshin",
+    "target_format": "marzban",
+    "start_time": "2025-06-03T20:14:41.733288+00:00"
+  },
+  "operations": [
+    {
+      "operation_id": "053a1dc1-759f-4b83-88ee-1763051d6eb4",
+      "operation_type": "insert_admin",
+      "target_table": "admins",
+      "operation_data": {
+        "username": "admin1",
+        "hashed_password": "NEEDS_RESET_IN_MARZBAN__ca688209598fc4c809b35b311af9abf1",
+        "is_sudo": true,
+        "created_at": "2025-06-03 20:14:41.734968+00:00",
+        "password_reset_at": null,
+        "discord_webhook": null,
+        "users_usage": 0,
+        "telegram_id": null
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:14:41.734990+00:00"
+    },
+    {
+      "operation_id": "5f200a4e-13b0-4936-9bc3-0a4b999a2189",
+      "operation_type": "insert_user",
+      "target_table": "users",
+      "operation_data": {
+        "username": "user1",
+        "status": "active",
+        "data_limit": 10737418240,
+        "used_traffic": 1073741824,
+        "expire": null,
+        "created_at": "2025-06-03 20:14:41.736568+00:00",
+        "edit_at": "2025-06-03 20:14:41.736569+00:00",
+        "note": null,
+        "sub_revoked_at": null,
+        "sub_updated_at": "2024-01-01 00:00:00+00:00",
+        "sub_last_user_agent": "TestAgent/1.0",
+        "online_at": "2024-01-01 12:00:00+00:00",
+        "data_limit_reset_strategy": "no_reset",
+        "admin_id": null,
+        "on_hold_timeout": null,
+        "on_hold_expire_duration": null,
+        "auto_delete_in_days": null,
+        "last_status_change": "2025-06-03 20:14:41.736577+00:00"
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:14:41.736627+00:00"
+    },
+    {
+      "operation_id": "3e5dfc1f-15e5-42df-82ed-b500c65e9599",
+      "operation_type": "insert_proxy",
+      "target_table": "proxies",
+      "operation_data": {
+        "_username_ref": "user1",
+        "type": "VLESS",
+        "settings": "{\"id\": \"550e8400-e29b-41d4-a716-446655440000\"}"
+      },
+      "rollback_data": null,
+      "timestamp": "2025-06-03T20:14:41.736639+00:00"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "383507a8-3e33-405f-b40a-02b4e0d94867",
+      "transaction_id": "5d3a835c-ec17-4962-8681-3f24b8f73d0b",
+      "operation_count": 1,
+      "checkpoint_data": {
+        "phase": "admins_completed",
+        "count": 1
+      },
+      "timestamp": "2025-06-03T20:14:41.735007+00:00"
+    },
+    {
+      "checkpoint_id": "57136043-0ae5-4ac9-b285-6c9369845dd7",
+      "transaction_id": "5d3a835c-ec17-4962-8681-3f24b8f73d0b",
+      "operation_count": 3,
+      "checkpoint_data": {
+        "phase": "transformation_completed",
+        "admin_count": 1,
+        "user_count": 1,
+        "proxy_count": 1
+      },
+      "timestamp": "2025-06-03T20:14:41.737470+00:00"
+    }
+  ]
+}

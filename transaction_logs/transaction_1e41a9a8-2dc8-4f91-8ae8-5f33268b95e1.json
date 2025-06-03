@@ -1,0 +1,22 @@
+{
+  "transaction_id": "1e41a9a8-2dc8-4f91-8ae8-5f33268b95e1",
+  "status": "rolled_back",
+  "start_time": "2025-06-03T20:12:50.573123+00:00",
+  "end_time": "2025-06-03T20:12:50.580329+00:00",
+  "metadata": {
+    "operation": "data_transformation",
+    "source_format": "marzneshin",
+    "target_format": "marzban",
+    "start_time": "2025-06-03T20:12:50.573067+00:00",
+    "rollback_reason": "'DataTransformer' object has no attribute 'transform_proxy_for_marzban'"
+  },
+  "operations": [
+    {
+      "operation_id": "e2365e41-ce8f-41a6-bce7-480778ad4d25",
+      "operation_type": "insert_admin",
+      "target_table": "admins",
+      "operation_data": {
+        "username": "admin1",
+        "hashed_password": "NEEDS_RESET_IN_MARZBAN__aa0973fff1a401d7fe4216be4e85e00c",
+        "is_sudo": true,
+        "created_at": 
